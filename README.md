@@ -17,7 +17,7 @@ It leverages a **multi-agent architecture**, **memory systems**, and **self-refl
 - **Self-Reflection Loop:** Iteratively evaluates and refines outputs until quality thresholds are met.
 - **Auto Retrieval Tuning:** Dynamically adjusts chunk size, top-k, and reranker settings based on failure analysis.
 
-## 🏗️ Architecture
+## Architecture
 The system follows a frontier-grade SaaS architecture:
 `Gateway API -> Planner Agent -> Task Decomposition -> Multi-Agent Workflow -> Memory Integration -> Self-Reflection -> Evaluation Output`
 
@@ -40,16 +40,18 @@ rag-debugger-saas/
 
 ## Getting Started
   1. Clone the repository:
+     
      ```bash
      git clone [https://github.com/yourusername/rag-debugger-saas.git](https://github.com/yourusername/rag-debugger-saas.git)
     cd rag-debugger-saas
      ```
   2. Set up virtual environment:
+     
     ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows use: venv\Scripts\activate
     ```
-  3. Install dependencies:
+  2. Install dependencies:
      ```bash
      pip install -r requirements.txt
      ```
@@ -60,7 +62,7 @@ rag-debugger-saas/
      ENVIRONMENT=development
      LOG_LEVEL=INFO
      ```
-  6. Run the Application:
+  5. Run the Application:
      ```bash
      python main.py
      ```
