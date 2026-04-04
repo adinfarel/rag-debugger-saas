@@ -16,7 +16,7 @@ class GroqClient:
         """Initializes the Groq client using the API key from settings."""
         self.client = Groq(api_key=settings.GROQ_API_KEY)
         
-        self.default_model = "mixtral-8x7b-32768"
+        self.default_model = "llama-3.1-8b-instant"
     
     def generate_text(
         self,
