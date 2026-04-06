@@ -1,6 +1,6 @@
 """
 Suggestion Agent module.
-Generates actionable RAG debugging recommendations based on hallucination root causes.
+Provides actionable feedback based on either Retrieval failure or Generation failure.
 """
 import json
 from app.core.logger import get_logger
@@ -16,39 +16,47 @@ def suggestion_agent(state: EvaluationState) -> dict:
     """
     logger.info("[SUGGESTOR] Generating debugging recommendations...")
     
-    score = state.get("hallucination_score", 100.0)
-    critiques = state.get("critique_results", [])
-    
-    if score == 100.0:
-        logger.info(f"[SUGGESTOR] Perfect score. No suggestions needed.")
-        return {"suggestions": ["System is performing optimally. No hallucination detected"]}
+    is_context_ok = state.get("is_context_relevant", True)
+    query = state.get("query", "")
     
     past_memories = memory_manager.load_relevant_memories()
     memory_context = json.dumps(past_memories, indent=2) if past_memories else "No past failures recorded."
     
-    failed_claims = [c for c in critiques if not c.get("is_supported")]
-    
-    prompt = f"""
-    You are a Senior AI Reliability Engineer. 
-    A RAG (Retrieval-Augmented Generation) system has failed to answer correctly.
-    
-    Past Failures Context:
-    {memory_context}
-    
-    Current Failed Claims (Hallucinations): 
-    {json.dumps(failed_claims)}
-    
-    Based on the failed claims above, provide 2 to 3 concise, highly technical suggestions 
-    to debug and fix the RAG pipeline. Consider aspects like:
-    - Chunking strategy
-    - Top-k retrieval tuning
-    - Embedding models
-    - Prompt engineering
-    - Retrieve Techniques
-    
-    Output ONLY a valid JSON array of strings containing your suggestions.
-    Do not include markdown formatting or extra text.
-    """
+    if not is_context_ok:
+        reason = state.get("context_relevance_reason", "Context not relevant.")
+        logger.warning(f"Developing suggestions for RETRIEVAL failures.")
+        failed_claims = [{"claim": "Retrieval Phase", "is_supported": False, "reason": reason}]
+        
+        prompt = f"""
+        You are a Senior RAG Architect. The system failed because the RETRIEVED CONTEXT is irrelevant to the query.
+        
+        PAST FAILURES CONTEXT:
+        {memory_context}
+        
+        CURRENT QUERY: {query}
+        REASON FOR FAILURE: {reason}
+        
+        Provide 2-3 specific technical suggestions to improve the RETRIEVAL system (e.g., chunking, embeddings, top-k, metadata filtering).
+        Output ONLY a valid JSON array of strings. Do not include markdown.
+        """
+        
+    else:
+        logger.info("Developing suggestions for failed GENERATION (Hallucination).")
+        failed_claims = [c for c in state.get("critique_results", []) if not c.get("is_supported")]
+        
+        prompt = f"""
+        You are a Senior AI Reliability Engineer. The context was good, but the LLM answer had hallucinations.
+        
+        PAST FAILURES CONTEXT:
+        {memory_context}
+        
+        CURRENT FAILED CLAIMS (Hallucinations): 
+        {json.dumps(failed_claims)}
+        
+        Provide 2-3 technical suggestions to fix these hallucinations (e.g., prompt engineering, temperature setting, or refining the answer).
+        Output ONLY a valid JSON array of strings. Do not include markdown.
+        """
+        
     try:
         response = llm_client.generate_text(prompt=prompt, temperature=0.0)
         clean_response = response.strip().strip("```json").strip("```")
