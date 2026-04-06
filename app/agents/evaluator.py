@@ -11,10 +11,17 @@ def evaluator_agent(state: EvaluationState) -> dict:
     """
     Computes a quantitative hallucination score and determines evaluation status.
     """
-    logger.info(f"[EVALUATOR] Calculating hallucination score...")
+    logger.info(f"[EVALUATOR] Calculating score...")
     
-    critiques = state.get("critique_results", [])
-    
+    is_context_ok = state.get("is_context_relevant", True)
+    if not is_context_ok:
+        logger.warning("[EVALUATOR] Context rejected by Retriever. Auto-Fail triggered.")
+        return {
+            "hallucination_score": 0.0,
+            "evaluation_status": "FAIL_BAD_CONTEXT",
+        }
+        
+    critiques = state.get("critique_results", [])     
     if not critiques:
         logger.warning(f"[EVALUATOR] No critiques found. Defaulting score to 0.")
         return {
