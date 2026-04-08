@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Integrity Playground — RAG Debugger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="tool-body">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar--tool" id="navbar">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <span class="logo-icon">◈</span>
+                <span class="logo-text">RAG Debugger</span>
+            </a>
+            <div class="model-selector-nav">
+                <span class="model-label">Model:</span>
+                <div class="model-pills">
+                    <button class="model-pill active" data-tier="free" data-model="Llama 3.1 8b">
+                        Llama 8b
+                    </button>
+                    <button class="model-pill locked" data-tier="pro" data-model="Llama 3.3 70b" onclick="showLockedModal('Pro', '$49/mo')">
+                        🔒 Llama 70b
+                    </button>
+                    <button class="model-pill locked" data-tier="thinking" data-model="DeepSeek R1" onclick="showLockedModal('Thinking', '$149/mo')">
+                        🔒 DeepSeek R1
+                    </button>
+                </div>
+            </div>
+            <a href="/#pricing" class="btn-cta btn-cta--sm">Upgrade →</a>
+        </div>
+    </nav>
+
+    <!-- TOOL PAGE -->
+    <main class="tool-main">
+        <div class="tool-inner">
+
+            <!-- Tool Header -->
+            <div class="tool-header">
+                <div class="tool-header-left">
+                    <div class="section-label">Evaluation Engine</div>
+                    <h1 class="tool-title">RAG Integrity<br><em>Playground</em></h1>
+                    <p class="tool-subtitle">Submit your RAG pipeline components and our autonomous agents will detect failures, hallucinations, and provide actionable fixes.</p>
+                </div>
+                <div class="tool-status-card">
+                    <div class="status-row">
+                        <span class="status-dot active"></span>
+                        <span>Agents Online</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-dot active"></span>
+                        <span>Web Search Ready</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-dot active"></span>
+                        <span>Memory DB Connected</span>
+                    </div>
+                    <div class="active-model-display">
+                        <span class="model-label">Active Model:</span>
+                        <span id="active-model-name" class="model-name-display">Llama 3.1 8b</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evaluation Form -->
+            <div class="eval-layout">
+                <div class="eval-form-col">
+                    <div class="eval-form-card">
+                        <div class="form-section-label">Pipeline Inputs</div>
+
+                        <div class="form-group">
+                            <label for="query">
+                                <span class="label-icon">①</span>
+                                User Query
+                            </label>
+                            <textarea id="query" rows="2" placeholder="What is the user asking?" required>What causes the Moon to appear red during a lunar eclipse?</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="retrieved_context">
+                                <span class="label-icon">②</span>
+                                Retrieved Context
+                                <span class="label-hint">From your vector DB / retriever</span>
+                            </label>
+                            <textarea id="retrieved_context" rows="4" placeholder="Paste the chunks retrieved by your RAG system..." required>Bananas are rich in potassium and grow in tropical climates. The color of ripe bananas is yellow due to carotenoid pigments. Bananas are commonly used in smoothies and desserts.</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="model_answer">
+                                <span class="label-icon">③</span>
+                                Model Answer
+                                <span class="label-hint">The LLM's generated response</span>
+                            </label>
+                            <textarea id="model_answer" rows="4" placeholder="Paste the LLM's answer to evaluate..." required>The Moon appears red during a lunar eclipse because Earth's atmosphere scatters shorter wavelengths of light and allows red wavelengths to pass through, which illuminate the Moon.</textarea>
+                        </div>
+
+                        <!-- Hidden tier input -->
+                        <input type="hidden" id="tier" value="free">
+
+                        <button id="submit-btn" class="btn-evaluate" onclick="runEvaluation()">
+                            <span id="btn-text">
+                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L16 9L9 16M2 9h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                Run Evaluation
+                            </span>
+                            <span id="btn-loading" class="hidden">
+                                <span class="btn-spinner"></span>
+                                Agents thinking...
+                            </span>
+                        </button>
+
+                        <div id="loading-status" class="loading-status hidden">
+                            <div class="loading-step active" id="step-retrieval">
+                                <span class="step-dot"></span>
+                                <span>Retrieval Agent analyzing context...</span>
+                            </div>
+                            <div class="loading-step" id="step-eval">
+                                <span class="step-dot"></span>
+                                <span>Evaluator scoring claims...</span>
+                            </div>
+                            <div class="loading-step" id="step-suggest">
+                                <span class="step-dot"></span>
+                                <span>Suggestion Agent browsing web...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Column -->
+                <div class="eval-result-col">
+                    <!-- Empty State -->
+                    <div class="result-empty" id="result-empty">
+                        <div class="empty-orb"></div>
+                        <p>Results will appear here after evaluation.</p>
+                        <span>Submit your pipeline inputs to begin.</span>
+                    </div>
+
+                    <!-- Result Section -->
+                    <div id="result-section" class="hidden">
+
+                        <!-- Integrity Gauge -->
+                        <div class="integrity-gauge-card" id="gauge-card">
+                            <div class="gauge-label">Pipeline Integrity</div>
+                            <div class="gauge-wrapper">
+                                <svg class="gauge-svg" viewBox="0 0 200 120">
+                                    <path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#e8ede9" stroke-width="16" stroke-linecap="round"/>
+                                    <path id="gauge-arc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#6db87a" stroke-width="16" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+                                    <text id="gauge-pct" x="100" y="95" text-anchor="middle" class="gauge-text">–</text>
+                                </svg>
+                            </div>
+                            <div class="gauge-status-row">
+                                <span id="out-status-badge" class="status-badge">–</span>
+                            </div>
+                        </div>
+
+                        <!-- Context Failure Alert -->
+                        <div id="context-failure-alert" class="context-failure-alert hidden">
+                            <div class="alert-icon">⚠</div>
+                            <div class="alert-body">
+                                <strong>Critical Failure: Context Failure</strong>
+                                <p>The retrieved context is completely irrelevant to the user query. We have found <strong>NO CLAIMS</strong> to extract or hallucinate. Suggestions are provided below to fix your retriever pipeline.</p>
+                            </div>
+                        </div>
+
+                        <!-- Claims Section -->
+                        <div id="claims-section" class="result-block hidden">
+                            <div class="result-block-header">
+                                <span class="result-block-icon">◎</span>
+                                Claim Analysis
+                            </div>
+                            <div id="out-claims"></div>
+                        </div>
+
+                        <!-- Suggestions -->
+                        <div id="suggestions-section" class="result-block hidden">
+                            <div class="result-block-header">
+                                <span class="result-block-icon">⟁</span>
+                                AI Suggestions
+                                <span class="web-badge">🌐 Web-augmented</span>
+                            </div>
+                            <ul id="out-suggestions" class="suggestions-terminal"></ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- LOCKED MODAL -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-icon">🔒</div>
+            <h3 id="modal-title">Upgrade Required</h3>
+            <p id="modal-desc">This model tier requires a paid plan.</p>
+            <div class="modal-actions">
+                <a href="/#pricing" class="modal-btn-primary">View Plans</a>
+                <button class="modal-btn-ghost" onclick="closeModal()">Stay on Free</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
