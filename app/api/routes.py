@@ -1,6 +1,7 @@
 """
 API Endpoints for the RAG Debugger.
 """
+import uuid
 from fastapi import APIRouter, HTTPException
 from app.api.schemas import EvaluationRequest, CritiqueDetail, EvaluationResponse
 from app.agents.graph import hallucination_debugger_app
@@ -21,18 +22,23 @@ async def evaluate_rag_output(request: EvaluationRequest):
         "query": request.query,
         "retrieved_context": request.retrieved_context,
         "model_answer": request.model_answer,
+        "original_answer": request.model_answer,
         "extracted_claims": [],
         "critique_results": [],
         "hallucination_score": None,
         "evaluation_status": "",
         "suggestions": [],
-        "current_step": "start"
+        "current_step": "start",
+        "user_tier": request.tier
     }
     
     current_state = initial_state.copy()
     
+    thread_id = str(uuid.uuid4())
+    config = {"configurable": {"thread_id": thread_id}}
+    
     try:
-        for output in hallucination_debugger_app.stream(initial_state):
+        for output in hallucination_debugger_app.stream(initial_state, config=config):
             for node_name, state_output in output.items():
                 logger.info(f"NODE COMPLETED: {node_name.upper()}")
                 current_state.update(state_output)

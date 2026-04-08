@@ -15,6 +15,7 @@ def critic_agent(state: EvaluationState) -> dict:
     """
     logger.info("[CRITICIZER] Verifying claims againts retrieved context...")
     
+    tier = state.get("user_tier", "free")
     claims = state.get("extracted_claims", [])
     context = state.get("retrieved_context", "")
     
@@ -37,9 +38,9 @@ def critic_agent(state: EvaluationState) -> dict:
     Claims to verify: {json.dumps(claims)}
     """
     try:
-        response = llm_client.generate_text(prompt=prompt, temperature=0.0)
+        response = llm_client.generate_text(prompt=prompt, temperature=0.0, tier=tier)
         
-        clean_response = response.strip().strip("```json").strip("```")
+        clean_response = llm_client.clean_json(response)
         
         critiques = json.loads(clean_response)
         

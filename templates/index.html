@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Debugger Pro — AI Integrity Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">
+                <span class="logo-icon">◈</span>
+                <span class="logo-text">RAG Debugger</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <a href="/static/mnt/user-data/outputs/tools/index.html" class="btn-cta">Get Started →</a>
+            <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <canvas id="particle-canvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Multi-Agent AI System
+            </div>
+            <h1 class="hero-title">
+                The Most Advanced<br>
+                <em>RAG Integrity</em><br>
+                Debugger.
+            </h1>
+            <p class="hero-sub">
+                Automatically detect hallucinations, analyze context failures,<br>
+                and get actionable suggestions to fix your RAG pipeline in seconds.
+            </p>
+            <div class="hero-actions">
+                <a href="/static/mnt/user-data/outputs/tools/index.html" class="btn-primary">
+                    <span>Launch Debugger</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="#features" class="btn-ghost">See how it works</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-num">3</span>
+                    <span class="stat-label">AI Agents</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-num">Real-time</span>
+                    <span class="stat-label">Web Search</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-num">100%</span>
+                    <span class="stat-label">Autonomous</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features" id="features">
+        <div class="section-inner">
+            <div class="section-label">What we do</div>
+            <h2 class="section-title">Three agents.<br>One diagnosis.</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⟢</div>
+                    <h3>Retrieval Analysis</h3>
+                    <p>Detects when retrieved context is semantically irrelevant to the user query — before any hallucination can occur.</p>
+                </div>
+                <div class="feature-card feature-card--accent">
+                    <div class="feature-icon">◎</div>
+                    <h3>Hallucination Detection</h3>
+                    <p>Claim-by-claim evaluation of LLM outputs against retrieved context. Every assertion is verified, nothing is assumed.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⟁</div>
+                    <h3>Autonomous Suggestions</h3>
+                    <p>Web-augmented AI suggestions. Our suggestion agent browses the internet in real-time to find the best fix for your pipeline.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⌬</div>
+                    <h3>Failure Memory</h3>
+                    <p>ChromaDB-powered memory of past failures. The system learns from history to deliver smarter, context-aware suggestions.</p>
+                </div>
+                <div class="feature-card feature-card--accent">
+                    <div class="feature-icon">◈</div>
+                    <h3>Multi-Tier Models</h3>
+                    <p>From Llama 8b to 70b. Choose your compute tier based on your evaluation complexity and budget.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⟳</div>
+                    <h3>LangGraph Orchestration</h3>
+                    <p>Built on LangGraph's stateful multi-agent graph. Every evaluation flows through a deterministic, auditable pipeline.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about" id="about">
+        <div class="section-inner">
+            <div class="section-label">The team</div>
+            <h2 class="section-title">Built by humans.<br>Powered by agents.</h2>
+            <div class="about-grid">
+                <!-- Founder -->
+                <div class="profile-card">
+                    <div class="profile-avatar profile-avatar--human">
+                        <div class="avatar-inner">
+                            <div class="avatar-face">
+                                <div class="avatar-eyes">
+                                    <div class="eye"></div>
+                                    <div class="eye"></div>
+                                </div>
+                                <div class="avatar-mouth"></div>
+                            </div>
+                        </div>
+                        <div class="avatar-badge human-badge">Founder</div>
+                    </div>
+                    <div class="profile-info">
+                        <h3>Almond "Klein" Thief</h3>
+                        <span class="profile-role">AI Architect & Builder</span>
+                        <p>A visionary AI Architect and problem solver dedicated to building reliable, trustworthy AI systems for enterprise. Obsessed with making LLMs that actually tell the truth.</p>
+                        <div class="profile-tags">
+                            <span>RAG Systems</span>
+                            <span>LLMOps</span>
+                            <span>Python</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Agent -->
+                <div class="profile-card profile-card--ai">
+                    <div class="profile-avatar profile-avatar--ai">
+                        <div class="avatar-inner ai-avatar-inner">
+                            <div class="ai-orb">
+                                <div class="orb-ring ring-1"></div>
+                                <div class="orb-ring ring-2"></div>
+                                <div class="orb-core"></div>
+                            </div>
+                        </div>
+                        <div class="avatar-badge ai-badge">AI Agent</div>
+                    </div>
+                    <div class="profile-info">
+                        <h3>Llama Debugger AI</h3>
+                        <span class="profile-role">Autonomous Multi-Agent System</span>
+                        <p>An autonomous multi-agent system designed to research, analyze, and diagnose RAG failures across the web in real-time. Never sleeps. Never assumes. Always verifies.</p>
+                        <div class="profile-tags">
+                            <span>Web Search</span>
+                            <span>LangGraph</span>
+                            <span>ChromaDB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section class="pricing" id="pricing">
+        <div class="section-inner">
+            <div class="section-label">Pricing</div>
+            <h2 class="section-title">Simple, transparent<br>pricing.</h2>
+            <div class="pricing-grid">
+
+                <!-- Free -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <span class="plan-name">Free</span>
+                        <div class="plan-price">
+                            <span class="price-amount">$0</span>
+                            <span class="price-period">/month</span>
+                        </div>
+                        <p class="plan-desc">Perfect for exploring and prototyping your RAG pipeline.</p>
+                    </div>
+                    <ul class="plan-features">
+                        <li>✓ Retrieval relevance analysis</li>
+                        <li>✓ Hallucination detection</li>
+                        <li>✓ Llama 3.1 8b model</li>
+                        <li>✓ Web-augmented suggestions</li>
+                        <li>✓ Failure memory (local)</li>
+                        <li class="disabled">✗ Advanced chunking strategies</li>
+                        <li class="disabled">✗ Priority support</li>
+                    </ul>
+                    <a href="/static/mnt/user-data/outputs/tools/index.html" class="plan-btn plan-btn--free">Start Free</a>
+                </div>
+
+                <!-- Pro -->
+                <div class="pricing-card pricing-card--featured">
+                    <div class="plan-popular">Most Popular</div>
+                    <div class="pricing-header">
+                        <span class="plan-name">Pro</span>
+                        <div class="plan-price">
+                            <span class="price-amount">$149</span>
+                            <span class="price-period">/month</span>
+                        </div>
+                        <p class="plan-desc">For teams building production-grade RAG systems.</p>
+                    </div>
+                    <ul class="plan-features">
+                        <li>✓ Everything in Free</li>
+                        <li>✓ Llama 3.3 70b model</li>
+                        <li>✓ Advanced retrieval analysis</li>
+                        <li>✓ 2026 knowledge update</li>
+                        <li>✓ Email support</li>
+                        <li>✓ Team workspace</li>
+                        <li class="disabled">✗ DeepSeek reasoning</li>
+                    </ul>
+                    <button class="plan-btn plan-btn--locked" onclick="showLockedModal('Pro', '$49/mo')">
+                        <span class="lock-icon"></span> Coming Soon
+                    </button>
+                </div>
+
+                <!-- Thinking -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <span class="plan-name">Thinking</span>
+                        <div class="plan-price">
+                            <span class="price-amount">$49</span>
+                            <span class="price-period">/month</span>
+                        </div>
+                        <p class="plan-desc">For enterprises demanding maximum reasoning accuracy.</p>
+                    </div>
+                    <ul class="plan-features">
+                        <li>✓ Everything in Pro</li>
+                        <li>✓ DeepSeek reasoning model</li>
+                        <li>✓ Automated parameter tuning</li>
+                        <li>✓ Priority support</li>
+                        <li>✓ Custom deployment</li>
+                        <li>✓ SLA guarantee</li>
+                        <li>✓ Dedicated account manager</li>
+                    </ul>
+                    <button class="plan-btn plan-btn--locked" onclick="showLockedModal('Thinking', '$49/mo')">
+                        <span class="lock-icon"></span> Coming Soon
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="/" class="nav-logo">
+                        <span class="logo-icon">◈</span>
+                        <span class="logo-text">RAG Debugger</span>
+                    </a>
+                    <p>Making LLMs that actually tell the truth.</p>
+                </div>
+                <div class="footer-links-group">
+                    <span class="footer-group-title">Product</span>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="/static/mnt/user-data/outputs/tools/index.html">Launch App</a>
+                </div>
+                <div class="footer-links-group">
+                    <span class="footer-group-title">Company</span>
+                    <a href="#about">About</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="footer-links-group">
+                    <span class="footer-group-title">Connect</span>
+                    <a href="#">GitHub</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">LinkedIn</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 RAG Debugger. All rights reserved.</span>
+                <span>Built with ◈ by Klein</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LOCKED MODAL -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-icon">🔒</div>
+            <h3 id="modal-title">This plan is locked</h3>
+            <p id="modal-desc">Upgrade to access this feature.</p>
+            <div class="modal-actions">
+                <button class="modal-btn-primary" onclick="closeModal()">Got it</button>
+                <button class="modal-btn-ghost" onclick="closeModal()">Maybe later</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

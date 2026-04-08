@@ -18,18 +18,21 @@ def run_cli_test():
         "query": "What causes the Moon to appear red during a lunar eclipse?",
         "retrieved_context": "Bananas are rich in potassium and grow in tropical climates. The color of ripe bananas is yellow due to carotenoid pigments. Bananas are commonly used in smoothies and desserts.",
         "model_answer": "The Moon appears red during a lunar eclipse because Earth's atmosphere scatters shorter wavelengths of light and allows red wavelengths to pass through, which illuminate the Moon.",
+        "original_answer": "The Moon appears red during a lunar eclipse because Earth's atmosphere scatters shorter wavelengths of light and allows red wavelengths to pass through, which illuminate the Moon.",
         "critique_results": [],
         "hallucination_score": None,
         "evaluation_status": "",
         "suggestions": [],
-        "current_step": "start"
+        "current_step": "start",
+        "revision_count": 0,
+        "user_tier": "thinking"
     }
     
     logger.info("Starting evaluation graph...")
-    
+    thread_config = {"configurable": {"thread_id": "test_session_001"}}
     current_state = initiate_state.copy()
     try:
-        for output in hallucination_debugger_app.stream(initiate_state):
+        for output in hallucination_debugger_app.stream(initiate_state, thread_config):
             for node_name, state_update in output.items():
                 print(f"\n[NODE COMPLETED]: {node_name.upper()}")
                 current_state.update(state_update)
@@ -40,6 +43,10 @@ def run_cli_test():
         
         result_data = current_state
         
+        print("="*50)
+        print(result_data.get("user_tier", "free").upper() + " USER")
+        print("="*50)
+        print(f"Query               : {result_data.get('query')}")
         print(f"Hallucination Score : {result_data.get('hallucination_score')}%")
         print(f"Evaluation Status   : {result_data.get('evaluation_status')}")
         

@@ -8,6 +8,7 @@ class EvaluationState(TypedDict):
     # Inputs from the User (The system being evaluated)
     query: str
     retrieved_context: str
+    original_answer: str
     model_answer: str
     
     # Context evaluation
@@ -33,3 +34,6 @@ class EvaluationState(TypedDict):
 
     # Looping mechanism
     revision_count: int
+    
+    # Add tier user
+    user_tier: str 

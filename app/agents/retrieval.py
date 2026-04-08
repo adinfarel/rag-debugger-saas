@@ -15,6 +15,7 @@ def retrieval_agent(state: EvaluationState) -> dict:
     """
     logger.info(f"[RETRIEVER] Analyzing the relevance of context to a query...")
     
+    tier = state.get("user_tier", "free")
     query = state.get("query", "").strip()
     context = state.get("retrieved_context", "").strip()
     
@@ -35,9 +36,9 @@ def retrieval_agent(state: EvaluationState) -> dict:
     """
     
     try:
-        response = llm_client.generate_text(prompt=prompt, temperature=0.0)
+        response = llm_client.generate_text(prompt=prompt, temperature=0.0, tier=tier)
         
-        clean_response = response.strip().strip("```json").strip("```")
+        clean_response = llm_client.clean_json(response)
         result = json.loads(clean_response)
         
         is_relevant = result.get("is_context_relevant", True)

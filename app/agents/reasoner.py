@@ -15,6 +15,7 @@ def reasoning_agent(state: EvaluationState) -> dict:
     Extracts individual claims from the model's answer.
     """
     
+    tier = state.get("user_tier", "free")
     answer = state.get("model_answer", "")
     
     prompt = f"""
@@ -26,9 +27,9 @@ def reasoning_agent(state: EvaluationState) -> dict:
     """
     try:
         # We use the default fast model (Mixtral) for simple extraction
-        response = llm_client.generate_text(prompt=prompt, temperature=0.0)
+        response = llm_client.generate_text(prompt=prompt, temperature=0.0, tier=tier)
         
-        clean_response = response.strip().strip("```json").strip("```")
+        clean_response = llm_client.clean_json(response)
         
         claims = json.loads(clean_response)
         logger.info(f"[REASONER] Successfully ectracted {len(claims)} claims.")

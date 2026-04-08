@@ -7,3 +7,8 @@ fastapi
 uvicorn
 python-multipart
 pydantic
+chromadb
+langgraph-checkpoint-sqlite
+sentence-transformers
+ddgs
+langchain-core
