@@ -43,15 +43,14 @@ rag-debugger-saas/
      
      ```bash
      git clone [https://github.com/yourusername/rag-debugger-saas.git](https://github.com/yourusername/rag-debugger-saas.git)
-    cd rag-debugger-saas
-     ```
-  2. Set up virtual environment:
-     
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use: venv\Scripts\activate
-    ```
-  2. Install dependencies:
+     cd rag-debugger-saas
+     ```  
+  2. Set up virtual environment:  
+     ```bash  
+     python -m venv venv
+     source venv/bin/activate  # On Windows use: venv\Scripts\activate
+     ```  
+  3. Install dependencies:
      ```bash
      pip install -r requirements.txt
      ```
